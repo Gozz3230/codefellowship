@@ -37,5 +37,6 @@ out/
 ### VS Code ###
 .vscode/
 
-### Spring ###
-src/main/resources/application.properties
+### SQL ###
+application.properties
+/src/main/resources/application.properties
