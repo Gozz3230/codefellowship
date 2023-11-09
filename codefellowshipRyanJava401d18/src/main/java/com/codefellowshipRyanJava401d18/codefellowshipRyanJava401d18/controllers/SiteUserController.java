@@ -1,7 +1,7 @@
 package com.codefellowshipRyanJava401d18.codefellowshipRyanJava401d18.controllers;
 
 import com.codefellowshipRyanJava401d18.codefellowshipRyanJava401d18.models.SiteUser;
-import com.codefellowshipRyanJava401d18.codefellowshipRyanJava401d18.repos.SiteUserRepo;
+import com.codefellowshipRyanJava401d18.codefellowshipRyanJava401d18.models.repos.SiteUserRepo;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
