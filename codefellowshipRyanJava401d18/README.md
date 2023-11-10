@@ -1,8 +1,10 @@
 ## CodeFellowship Login
 
-#### Feature Tasks
+### Feature Tasks
 
 Build an app that allows users to log into CodeFellowship.
+
+#### Phase One
 
 -Login page
 -Login page link to signup page
@@ -24,3 +26,6 @@ passwordEncoder.encode(password) before saving the password into the new user.
 -User registration will log users into app automatically
 
 [Spring Security cheat sheet](https://codefellows.github.io/code-401-java-guide/curriculum/SpringSecurityCheatSheet.html)
+
+#### Phase Two
+
