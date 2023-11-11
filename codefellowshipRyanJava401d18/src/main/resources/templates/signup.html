@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -14,31 +14,26 @@
     <nav th:replace="fragments/navbar :: navbar"></nav>
 </header>
 <body>
-<form action="/signup" method="POST">
-    <label>Username</label>
-    <input type="text" name="username">
+<form method="post" action="/signup">
+    <label for="username">Username</label>
+    <input id="username" name="username" type="text" required>
 
-    <br>
-    <label>Password</label>
-    <input type="text" name="password">
+    <label for="password">Password</label>
+    <input id="password" name="password" type="password" required>
 
-    <br>
-    <label>First Name</label>
-    <input type="text" name="firstName">
+    <label for="firstName">First Name</label>
+    <input id="firstName" name="firstName" type="text" required>
 
-    <br>
-    <label>Last Name</label>
-    <input type="text" name="lastName">
+    <label for="lastName">Last Name</label>
+    <input id="lastName" name="lastName" type="text" required>
 
-    <br>
-    <label>Date Of Birth</label>
-    <input type="text" name="dateOfBirth">
+    <label for="dateOfBirth">Date of Birth</label>
+    <input id="dateOfBirth" name="dateOfBirth" type="date" required>
 
-    <br>
-    <label>Bio</label>
-    <input type="text" name="bio">
+    <label for="bio">Bio</label>
+    <textarea id="bio" name="bio" required></textarea>
 
-    <input type="submit" value="Sign Up">
+    <input type="submit" value="Sign up">
 </form>
 </body>
 </html>

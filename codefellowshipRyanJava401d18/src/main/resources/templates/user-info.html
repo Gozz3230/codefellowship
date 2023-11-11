@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>User Info</title>
+</head>
+<body>
+<h3 th:if="${username} != null" th:text="${'Current browsing user: ' + username}"></h3>
+<div th:replace="/fragments/error-fragment :: siteuser-error"></div>
+<h1 th:text="${'user info for user id: ' + profileId}"></h1>
+
+
+<form th:action="${'/user/' + profileId}" th:method="PUT">
+    <label for="profilename">Username</label>
+    <input th:value="${profilename}" type="text" name="profilename" id="profilename"
+           th:disabled="${!username.equals(profilename)}">
+    <input th:if="${username.equals(profilename)}" type="submit" value="edit user info">
+</form>
+
+<label for="profileId">ProfileId</label>
+<div th:text="${profileId}" type="text" name="profileId" id="profileId"></div>
+<label for="profileDateCreated">Date Created</label>
+<div th:text="${#temporals.format(profileDateCreated, 'MM-dd-yyyy')}" type="text" name="profileDateCreated"
+     id="profileDateCreated"></div>
+
+<form th:Action="${'/follow-user/' + viewUser.id}" th:method="PUT">
+    <input type="hidden" th:value="${viewUser.username}">
+    <input type="submit" value="Follow User" th:disabled="${authUser.usernme.equals(viewUser.username)}">
+</form>
+
+<h2>Users followed</h2>
+<ul th:each="followedUser : ${usersIFollow}">
+    <li th:text="${followedUser.username}"></li>
+</ul>
+</body>
+</html>
