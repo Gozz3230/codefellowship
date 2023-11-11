@@ -28,5 +28,15 @@
 <label for="profileDateCreated">Date Created</label>
 <div th:text="${#temporals.format(profileDateCreated, 'MM-dd-yyyy')}" type="text" name="profileDateCreated"
      id="profileDateCreated"></div>
+
+<form th:Action="${'/follow-user/' + viewUser.id}" th:method="PUT">
+    <input type="hidden" th:value="${viewUser.username}">
+    <input type="submit" value="Follow User" th:disabled="${authUser.usernme.equals(viewUser.username)}">
+</form>
+
+<h2>Users followed</h2>
+<ul th:each="followedUser : ${usersIFollow}">
+    <li th:text="${followedUser.username}"></li>
+</ul>
 </body>
 </html>

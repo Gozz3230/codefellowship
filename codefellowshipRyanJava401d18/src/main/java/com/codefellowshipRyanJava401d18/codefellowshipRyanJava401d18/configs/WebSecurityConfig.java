@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -32,12 +33,15 @@ public class WebSecurityConfig {
                     .requestMatchers("/").permitAll()
                     .requestMatchers("/signup").permitAll()
                     .requestMatchers("/css/**").permitAll()
+                    .requestMatchers("/login").permitAll()
+                    .requestMatchers("/error").permitAll()
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().authenticated()
             )
             .formLogin()
             .loginPage("/login").permitAll()
             .defaultSuccessUrl("/")
-
+            .successHandler(new SavedRequestAwareAuthenticationSuccessHandler()) // Add this line
             .and()
             .logout()
             .logoutSuccessUrl("/login")
