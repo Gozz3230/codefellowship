@@ -98,18 +98,18 @@ public class SiteUserController {
     return "test.html";
   }
 
-  @GetMapping("/myprofile")
+  @GetMapping("/myProfile")
   public String getMyProfile(Model m, Principal p) {
     if (p != null) { //not strictly needed if WebSecurityConfig is set up properly
       SiteUser user = siteUserRepo.findByUsername(p.getName());
       m.addAttribute("user", user);
       m.addAttribute("username", user.getUsername());
-      return "myprofile";
+      return "myProfile";
     }
     return "login";
   }
 
-  @PutMapping("/myprofile")
+  @PutMapping("/myProfile")
   public RedirectView editProfile(Principal p, String username, String firstName, String lastName, LocalDate dateOfBirth, String bio, Long id, RedirectAttributes redir) {
     SiteUser user = siteUserRepo.findById(id).orElseThrow();
     if (p != null) { //not strictly needed if WebSecurityConfig is set up properly
@@ -128,7 +128,7 @@ public class SiteUserController {
       redir.addFlashAttribute("errorMessage", "You are not permitted to edit this profile!");
     }
 
-    return new RedirectView("/myprofile");
+    return new RedirectView("/myProfile");
   }
 
   @PostMapping("/createPost")
@@ -143,7 +143,7 @@ public class SiteUserController {
     } else {
       redir.addFlashAttribute("errorMessage", "You are not permitted to add posts to this profile!");
     }
-    return new RedirectView("/myprofile");
+    return new RedirectView("/myProfile");
   }
 
   @GetMapping("/user/{id}")
@@ -166,12 +166,12 @@ public class SiteUserController {
 
   @PutMapping("follow-user/{id}")
   public RedirectView followUser(Principal p, @PathVariable Long id) {
-    SiteUser userTofollow = siteUserRepo.findById(id).orElseThrow(() -> new RuntimeException("Error reading user from database with id of: " + id));
+    SiteUser userToFollow = siteUserRepo.findById(id).orElseThrow(() -> new RuntimeException("Error reading user from database with id of: " + id));
     SiteUser currentAuthUser = siteUserRepo.findByUsername(p.getName());
-    if (currentAuthUser.getUsername().equals(userTofollow.getUsername())) {
+    if (currentAuthUser.getUsername().equals(userToFollow.getUsername())) {
       throw new IllegalArgumentException("you cannot follow yourself!");
     }
-    currentAuthUser.getUsersIFollow().add(userTofollow);
+    currentAuthUser.getUsersIFollow().add(userToFollow);
     siteUserRepo.save(currentAuthUser);
 
     return new RedirectView("/user/" + id);
