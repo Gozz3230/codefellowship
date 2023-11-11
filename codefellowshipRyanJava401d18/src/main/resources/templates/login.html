@@ -1,5 +1,5 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport"
@@ -14,16 +14,19 @@
   <nav th:replace="fragments/navbar :: navbar"></nav>
 </header>
 <body>
-<h1>Login</h1>
-<h2>(or sign up <a href="/signup">here</a>)</h2>
-<form action="login" method="POST">
+<h1>Login Page</h1>
+<div th:replace="/fragments/error :: applicationUser-error"></div>
+<form action="/login" method="POST">
   <label>Username</label>
   <input type="text" name="username">
 
+  <br>
   <label>Password</label>
   <input type="password" name="password">
 
-  <input type="submit" value="Log in">
+  <input type="submit" value="Login">
 </form>
+<p>Don't have an account? <a href="/signup">Sign up</a></p>
+<p class="logout-success" th:if="${param.logout}">You have successfully logged out</p>
 </body>
 </html>

@@ -1,35 +1,46 @@
 package com.codefellowshipRyanJava401d18.codefellowshipRyanJava401d18.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class SiteUser implements UserDetails {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   long id;
-  String username;
-  String password;
-  String bio;
-  String dateOfBirth;
-  String firstName;
-  String lastName;
-  LocalDate dateCreated;
+  @Column(unique = true)
+  private String username;
+  private String password;
+  private String firstName;
+  private String lastName;
+  private LocalDate dateOfBirth;
+  private String bio;
 
+  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+  private List<Post> posts;
+
+  // Constructors
   public SiteUser() {
-  } // default constructor
+  }
 
-  public SiteUser(String username, String password, LocalDate dateCreated) {
+  public SiteUser(String username, String password, String firstName, String lastName, LocalDate dateOfBirth, String bio) {
     this.username = username;
     this.password = password;
-    this.dateCreated = dateCreated;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.dateOfBirth = dateOfBirth;
+    this.bio = bio;
+  }
+
+  // UserDetails Overrides
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return null;
   }
 
   @Override
@@ -52,35 +63,13 @@ public class SiteUser implements UserDetails {
     return true;
   }
 
-  @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    return null;
+  // Methods
+  public void addPost(Post post) {
+    post.setApplicationUser(this);
+    posts.add(post);
   }
 
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public LocalDate getDateCreated() {
-    return dateCreated;
-  }
-
-  public void setDateCreated(LocalDate dateCreated) {
-    this.dateCreated = dateCreated;
-  }
-
+  // Getters and Setters
   public long getId() {
     return id;
   }
@@ -89,20 +78,22 @@ public class SiteUser implements UserDetails {
     this.id = id;
   }
 
-  public String getBio() {
-    return bio;
+  @Override
+  public String getUsername() {
+    return username;
   }
 
-  public void setBio(String bio) {
-    this.bio = bio;
+  public void setUsername(String username) {
+    this.username = username;
   }
 
-  public String getDateOfBirth() {
-    return dateOfBirth;
+  @Override
+  public String getPassword() {
+    return password;
   }
 
-  public void setDateOfBirth(String dateOfBirth) {
-    this.dateOfBirth = dateOfBirth;
+  public void setPassword(String password) {
+    this.password = password;
   }
 
   public String getFirstName() {
@@ -119,5 +110,29 @@ public class SiteUser implements UserDetails {
 
   public void setLastName(String lastName) {
     this.lastName = lastName;
+  }
+
+  public LocalDate getDateOfBirth() {
+    return dateOfBirth;
+  }
+
+  public void setDateOfBirth(LocalDate dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
+  }
+
+  public String getBio() {
+    return bio;
+  }
+
+  public void setBio(String bio) {
+    this.bio = bio;
+  }
+
+  public List<Post> getPosts() {
+    return posts;
+  }
+
+  public void setPosts(List<Post> posts) {
+    this.posts = posts;
   }
 }
