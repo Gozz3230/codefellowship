@@ -45,7 +45,7 @@ public class SiteUserController {
 
       m.addAttribute("username", username);
     }
-    return "index.html";
+    return "/index.html";
   }
 
   @GetMapping("/login")
@@ -95,24 +95,24 @@ public class SiteUserController {
       }
     }
 
-    return "test.html";
+    return "/test.html";
   }
 
   @GetMapping("/myProfile")
   public String getMyProfile(Model m, Principal p) {
-    if (p != null) { //not strictly needed if WebSecurityConfig is set up properly
+    if (p != null) {
       SiteUser user = siteUserRepo.findByUsername(p.getName());
       m.addAttribute("user", user);
       m.addAttribute("username", user.getUsername());
-      return "myProfile";
+      return "/myProfile.html";
     }
-    return "login";
+    return "/login.html";
   }
 
   @PutMapping("/myProfile")
   public RedirectView editProfile(Principal p, String username, String firstName, String lastName, LocalDate dateOfBirth, String bio, Long id, RedirectAttributes redir) {
     SiteUser user = siteUserRepo.findById(id).orElseThrow();
-    if (p != null) { //not strictly needed if WebSecurityConfig is set up properly
+    if (p != null) {
       user.setUsername(username);
       user.setFirstName(firstName);
       user.setLastName(lastName);
@@ -120,7 +120,6 @@ public class SiteUserController {
       user.setBio(bio);
       siteUserRepo.save(user);
 
-      // include lines below if your principal is not updating
       UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(user, user.getPassword(),
               user.getAuthorities());
       SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -128,13 +127,13 @@ public class SiteUserController {
       redir.addFlashAttribute("errorMessage", "You are not permitted to edit this profile!");
     }
 
-    return new RedirectView("/myProfile");
+    return new RedirectView("/myProfile.html");
   }
 
   @PostMapping("/createPost")
   public RedirectView createPost(Principal p, String body, long id, RedirectAttributes redir) {
     SiteUser user = siteUserRepo.findById(id).orElseThrow();
-    if (p != null) { //not strictly needed if WebSecurityConfig is set up properly
+    if (p != null) {
       Date date = new Date();
       Post post = new Post(body, date);
       user.addPost(post);
@@ -146,7 +145,7 @@ public class SiteUserController {
     return new RedirectView("/myProfile");
   }
 
-  @GetMapping("/user/{id}")
+  @GetMapping("/users/{id}")
   public String getUserInfoPage(Model m, Principal p, @PathVariable long id, RedirectAttributes redir) {
     if (p != null) {
       SiteUser user = siteUserRepo.findById(id).orElseThrow();
@@ -157,7 +156,7 @@ public class SiteUserController {
       m.addAttribute("viewUser", viewUser);
       m.addAttribute("usersIFollow", viewUser.getUsersIFollow());
       m.addAttribute("usersWhoFollowMe", viewUser.getUsersWhoFollowMe());
-      return "profile";
+      return "/user-info.html";
     } else {
       redir.addFlashAttribute("errorMessage", "You must be logged in to view this profile!");
       return "redirect:/login";

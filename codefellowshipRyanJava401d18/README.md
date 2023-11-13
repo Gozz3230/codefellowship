@@ -29,3 +29,31 @@ passwordEncoder.encode(password) before saving the password into the new user.
 
 #### Phase Two
 
+Allow users to log in to CodeFellowship, view user profiles, and create posts.
+
+-Upon logging in, users taken to /myProfile route that displays their info
+-Will include a default profile picture, which is the same for every user, and their basic information from
+ApplicationUser
+-Page that allows viewing data about a single ApplicationUser, at a route like /users/{id}
+-Keep homepage, login, and registration routes accessible to non-logged in users. All other
+routes should be limited to logged-in users
+-Add a Post entity
+  -Has a body and a createdAt timestamp
+  -Logged-in user can create a Post, the post should belong to the user that created it.
+  -User’s posts visible on their profile page
+-Use reusable templates for information(At a minimum, it will have one Thymeleaf fragment that is
+used on multiple pages)
+-Site will have a non-whitelabel error handling page that lets the user know, at minimum, the error code and a
+brief message about what went wrong
+
+#### Phase Three
+
+-Ensure that users can’t perform SQL injection or HTML injection with their posts
+-Allow users to follow other users. Following a user means that their posts show up in the logged-in user’s feed, where
+they can see what all of their followed users have posted recently
+-Ensure there is some way (like a users index page) that a user can discover other users on the service
+-On a user profile page that does NOT belong to the currently logged-in user, display a “Follow” button. When a user
+clicks that follow button, the logged-in user is now following the viewed-profile-page user
+note: this will require a self-join on ApplicationUsers
+-A user can visit a url (like /feed) to view all posts from the users they follow
+-Each post will have a link to the user profile of the user who wrote the post
