@@ -12,14 +12,14 @@
 </head>
 <body>
 <h3 th:if="${username} != null" th:text="${'Current browsing user: ' + username}"></h3>
-<div th:replace="/fragments/error-fragment :: siteuser-error"></div>
+<div th:replace="/fragments/error :: applicationUser-error"></div>
+
 <h1 th:text="${'user info for user id: ' + profileId}"></h1>
 
 
 <form th:action="${'/user/' + profileId}" th:method="PUT">
     <label for="profileName">Username</label>
-    <input th:value="${profileName}" type="text" name="profileName" id="profileName"
-           th:disabled="${!username.equals(profileName)}">
+    <input th:value="${profileName}" type="text" name="profileName" id="profileName" th:disabled="${!username.equals(profileName)}">
     <input th:if="${username.equals(profileName)}" type="submit" value="edit user info">
 </form>
 
