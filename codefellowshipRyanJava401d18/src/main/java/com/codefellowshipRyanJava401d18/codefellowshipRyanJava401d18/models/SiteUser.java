@@ -23,6 +23,7 @@ public class SiteUser implements UserDetails {
   private String lastName;
   private LocalDate dateOfBirth;
   private String bio;
+//  String imageURL;
 
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
   private List<Post> posts;
@@ -42,7 +43,7 @@ public class SiteUser implements UserDetails {
 
   @ManyToMany
   @JoinTable(
-          name = "followers_to_followees",
+          name = "followers_to_following",
           joinColumns = {@JoinColumn(name = "userWhoIsFollowing")},
           inverseJoinColumns = {@JoinColumn(name = "Followed_user")}
   )
